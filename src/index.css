@@ -1,0 +1,272 @@
+/* :root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: #646cff;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+} */
+@import url("https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600&family=Inter+Tight:wght@300;400;500;600&family=Playfair+Display:wght@400;500&family=Cairo:wght@300;400;500;600&display=swap");
+
+@import "tailwindcss";
+@font-face {
+  font-family: "Castellar";
+  src: url("/fonts/Castellar-Regular.ttf") format("truetype");
+  font-style: normal;
+}
+
+:root {
+  /* Luxury fashion palette */
+  --font-heading: "Playfair Display", serif; /* Editorial / luxury titles */
+  --font-body: "Assistant", sans-serif; /* Clean premium body */
+  --font-ui: "Inter Tight", sans-serif; /* Buttons, UI, labels */
+  --font-arabic: "Cairo", sans-serif; /* Arabic content */
+  --font-category: "Castellar", serif;
+}
+
+@import "tailwindcss";
+@keyframes gradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-gradientMove {
+  animation: gradientMove 3s ease infinite;
+}
+
+@theme {
+  --font-eras: "ITC Eras Std Bold", sans-serif;
+  --breakpoint-sm: 480px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 976px;
+}
+.font-category {
+  font-family: var(--font-category);
+  letter-spacing: 0.15em;
+}
+
+@keyframes pulse-glow {
+  0% {
+    box-shadow: 0 0 0px rgba(0, 0, 0, 0.09);
+  }
+  50% {
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+  }
+  100% {
+    box-shadow: 0 0 0px rgba(0, 0, 0, 0.09);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 3.5s infinite ease-in-out;
+}
+.slick-dots li.slick-active div.custom-dot {
+  opacity: 1 !important; /* Full opacity for active */
+}
+
+/* Hide scrollbar for Chrome, Safari, and Edge */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for Firefox */
+.scrollbar-hide {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+@keyframes cinematicZoom {
+  0% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.cinematic-zoom {
+  animation: cinematicZoom 2s ease-out forwards;
+}
+
+@keyframes scrollPushUp {
+  0% {
+    max-height: 0;
+    opacity: 0;
+    transform: translateY(12px);
+    margin-top: 0;
+  }
+
+  30% {
+    max-height: 24px;
+    opacity: 1;
+    transform: translateY(0);
+    margin-top: 8px;
+  }
+
+  70% {
+    max-height: 24px;
+    opacity: 1;
+    transform: translateY(0);
+    margin-top: 8px;
+  }
+
+  100% {
+    max-height: 0;
+    opacity: 0;
+    transform: translateY(-4px);
+    margin-top: 0;
+  }
+}
+
+.animate-scroll-push {
+  overflow: hidden;
+  opacity: 0; /* 🔒 hidden initially */
+  max-height: 0; /* 🔒 no space initially */
+  animation: scrollPushUp 3.6s ease-in-out 2 forwards;
+  animation-delay: 3.5s; /* ⏱️ wait before appearing */
+}
+
+/* ============================= */
+/* LATIN – LUXURY FASHION SYSTEM */
+/* ============================= */
+
+/* Headings – fashion brand titles */
+.font-heading {
+  font-family: "Assistant", system-ui, sans-serif;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+}
+
+/* Subheadings */
+.font-subheading {
+  font-family: "Assistant", system-ui, sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* Body text – clean luxury */
+.font-body {
+  font-family: "Assistant", system-ui, sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+}
+
+/* Editorial / brand statements */
+.font-editorial {
+  font-family: "Playfair Display", serif;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+
+/* ============================= */
+/* ARABIC – PREMIUM MODERN STYLE */
+/* ============================= */
+
+.font-ar {
+  font-family: "Cairo", system-ui, sans-serif;
+  font-weight: 400;
+  direction: rtl;
+}
+
+/* Arabic headings */
+.font-ar-heading {
+  font-family: "Cairo", system-ui, sans-serif;
+  font-weight: 600;
+  letter-spacing: 0;
+  direction: rtl;
+}
+.myZoom .iiz__btn {
+  border-radius: 8px; /* rounded corners */
+  padding: 6px 10px; /* button size */
+  font-size: 16px;
+  opacity: 0.85; /* transparency */
+  transition: 0.2s;
+}
+.myZoom .iiz__close:hover {
+  opacity: 1;
+}
+
+.grid-category__shadow {
+  background-color: #cc1111;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  transition: transform 0.2s;
+}
+
+#my-categories-68968013 .ec-category-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+#my-categories-68968013 .ec-category-card-title {
+  font-weight: 600;
+  color: #333;
+}
