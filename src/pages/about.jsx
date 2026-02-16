@@ -19,7 +19,7 @@ export default function About() {
             <div className="flex-1">
               <h1 className="text-3xl md:text-5xl font-bold leading-tight">
                 À propos de{" "}
-                <span className="text-[#D4AF37]">Clin d’Oeil Store</span>
+                <span className="text-[#D4AF37]">Clin dOeil Store</span>
               </h1>
 
               <p className="mt-6 text-base md:text-lg leading-relaxed">
