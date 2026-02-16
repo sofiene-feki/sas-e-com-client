@@ -29,7 +29,6 @@ import { sendServerEvent } from "../functions/fbCapi";
 import { BsCartPlus } from "react-icons/bs";
 import { BsCartCheck } from "react-icons/bs";
 import { toast } from "react-toastify";
-import { Helmet } from "react-helmet-async";
 import InnerImageZoom from "react-inner-image-zoom";
 import "react-inner-image-zoom/lib/styles.min.css";
 
@@ -119,11 +118,12 @@ export default function ProductDetails() {
 
     const normalizedColors = (product.colors || []).map((c) => ({
       ...c,
-      src: c.src && !c.src.startsWith("http") ? API_BASE_URL_MEDIA + c.src : c.src,
-      media: (c.media || []).map(m => ({
+      src:
+        c.src && !c.src.startsWith("http") ? API_BASE_URL_MEDIA + c.src : c.src,
+      media: (c.media || []).map((m) => ({
         ...m,
-        src: m.src.startsWith("http") ? m.src : API_BASE_URL_MEDIA + m.src
-      }))
+        src: m.src.startsWith("http") ? m.src : API_BASE_URL_MEDIA + m.src,
+      })),
     }));
 
     return { ...product, media: normalizedMedia, colors: normalizedColors };
@@ -143,9 +143,7 @@ export default function ProductDetails() {
           const initialColor = normalizedProduct.colors?.[0] || null;
           setSelectedColor(initialColor);
           setSelectedMedia(
-            initialColor?.media?.[0] ||
-            normalizedProduct.media?.[0] ||
-            null
+            initialColor?.media?.[0] || normalizedProduct.media?.[0] || null,
           );
 
           console.log("✅ Product fetched:", normalizedProduct);
@@ -206,7 +204,11 @@ export default function ProductDetails() {
       return Number(selectedSize.quantity) > 0;
     }
     // Priority 2: Color-specific inventory (if sizes are not utilized)
-    if ((!product?.sizes || product.sizes.length === 0) && selectedColor && selectedColor.quantity !== undefined) {
+    if (
+      (!product?.sizes || product.sizes.length === 0) &&
+      selectedColor &&
+      selectedColor.quantity !== undefined
+    ) {
       return Number(selectedColor.quantity) > 0;
     }
     // Priority 3: Global product stock
@@ -334,9 +336,15 @@ export default function ProductDetails() {
       // Aggregation Logic: Sync total quantity with variants
       let totalVariantQuantity = 0;
       if (product.sizes?.length > 0) {
-        totalVariantQuantity = product.sizes.reduce((acc, s) => acc + (Number(s.quantity) || 0), 0);
+        totalVariantQuantity = product.sizes.reduce(
+          (acc, s) => acc + (Number(s.quantity) || 0),
+          0,
+        );
       } else if (product.colors?.length > 0) {
-        totalVariantQuantity = product.colors.reduce((acc, c) => acc + (Number(c.quantity) || 0), 0);
+        totalVariantQuantity = product.colors.reduce(
+          (acc, c) => acc + (Number(c.quantity) || 0),
+          0,
+        );
       }
 
       const formData = new FormData();
@@ -346,22 +354,26 @@ export default function ProductDetails() {
       formData.append("Price", Number(product.Price) || 0);
       formData.append("promotion", Number(product.promotion) || 0);
       formData.append("Description", product.Description || "");
-      formData.append("Quantity", totalVariantQuantity || product.Quantity || 0);
+      formData.append(
+        "Quantity",
+        totalVariantQuantity || product.Quantity || 0,
+      );
       formData.append("sold", product.sold || 0);
       if (product.Category) formData.append("Category", product.Category);
-      if (product.subCategory) formData.append("subCategory", product.subCategory);
+      if (product.subCategory)
+        formData.append("subCategory", product.subCategory);
 
       // Variants: Colors
       if (Array.isArray(product.colors)) {
-        const colorsPayload = product.colors.map(c => ({
+        const colorsPayload = product.colors.map((c) => ({
           name: c.name,
           value: c.value,
-          quantity: Number(c.quantity) || 0
+          quantity: Number(c.quantity) || 0,
         }));
         formData.append("colors", JSON.stringify(colorsPayload));
 
         product.colors.forEach((c, i) => {
-          (c.media || []).forEach(m => {
+          (c.media || []).forEach((m) => {
             if (m.file) formData.append(`colorMediaFiles[${i}]`, m.file);
           });
         });
@@ -387,7 +399,11 @@ export default function ProductDetails() {
         success: `✨ "${product.Title}" créé avec succès`,
         error: {
           render({ data }) {
-            return data?.response?.data?.error || data?.message || `❌ Échec de la création`;
+            return (
+              data?.response?.data?.error ||
+              data?.message ||
+              `❌ Échec de la création`
+            );
           },
         },
       });
@@ -407,9 +423,15 @@ export default function ProductDetails() {
       // Aggregation Logic: Sync total quantity with variants
       let totalVariantQuantity = 0;
       if (product.sizes?.length > 0) {
-        totalVariantQuantity = product.sizes.reduce((acc, s) => acc + (Number(s.quantity) || 0), 0);
+        totalVariantQuantity = product.sizes.reduce(
+          (acc, s) => acc + (Number(s.quantity) || 0),
+          0,
+        );
       } else if (product.colors?.length > 0) {
-        totalVariantQuantity = product.colors.reduce((acc, c) => acc + (Number(c.quantity) || 0), 0);
+        totalVariantQuantity = product.colors.reduce(
+          (acc, c) => acc + (Number(c.quantity) || 0),
+          0,
+        );
       }
 
       const formData = new FormData();
@@ -419,7 +441,10 @@ export default function ProductDetails() {
       formData.append("Price", Number(product.Price) || 0);
       formData.append("promotion", Number(product.promotion) || 0);
       formData.append("Description", product.Description || "");
-      formData.append("Quantity", totalVariantQuantity || product.Quantity || 0);
+      formData.append(
+        "Quantity",
+        totalVariantQuantity || product.Quantity || 0,
+      );
       formData.append("sold", product.sold || 0);
       if (product.Category) formData.append("Category", product.Category);
       if (product.subCategory)
@@ -434,7 +459,9 @@ export default function ProductDetails() {
           value: c.value,
           quantity: Number(c.quantity) || 0,
           // Keep track of existing color media IDs if backend supports per-color media management
-          existingMedia: (c.media || []).filter(m => m._id && !m.file).map(m => m._id)
+          existingMedia: (c.media || [])
+            .filter((m) => m._id && !m.file)
+            .map((m) => m._id),
         }));
 
         formData.append("colors", JSON.stringify(colorsPayload));
@@ -560,91 +587,41 @@ export default function ProductDetails() {
 
   return (
     <div className="md:py-6 py-0">
-      {product && !loading && (
-        <Helmet>
-          <title>{product.Title} | Clin d'Oeil Store</title>
-          <meta
-            name="description"
-            content={product.Description.slice(0, 160)}
-          />
-
-          {/* Open Graph / Social sharing */}
-          <meta property="og:title" content={product.Title} />
-          <meta
-            property="og:description"
-            content={product.Description.slice(0, 160)}
-          />
-          <meta property="og:type" content="product" />
-          <meta
-            property="og:url"
-            content={`https://www.clindoeilstore.com/product/${slug}`}
-          />
-          <meta
-            property="og:image"
-            content={selectedMedia?.src || "/logo.png"}
-          />
-
-          {/* Twitter */}
-          <meta name="twitter:card" content="summary_large_image" />
-          <meta name="twitter:title" content={product.Title} />
-          <meta
-            name="twitter:description"
-            content={product.Description.slice(0, 160)}
-          />
-          <meta
-            name="twitter:image"
-            content={selectedMedia?.src || "/logo.png"}
-          />
-
-          {/* JSON-LD structured data */}
-          <script type="application/ld+json">
-            {JSON.stringify({
-              "@context": "https://schema.org/",
-              "@type": "Product",
-              name: product.Title,
-              image: product.media?.map((m) => m.src) || [],
-              description: product.Description,
-              sku: product._id,
-              brand: {
-                "@type": "Brand",
-                name: "Clin d'Oeil Store",
-              },
-              offers: {
-                "@type": "Offer",
-                url: `https://www.clindoeilstore.com/product/${slug}`,
-                priceCurrency: "TND",
-                price: discountedPrice,
-                availability:
-                  product.Quantity > 0
-                    ? "https://schema.org/InStock"
-                    : "https://schema.org/OutOfStock",
-              },
-            })}
-          </script>
-        </Helmet>
-      )}
-
       {user && (
         <div className="sticky top-14 z-[60] bg-white/90 backdrop-blur-md border-b border-neutral-100 py-4 px-6 mb-12">
           <div className="max-w-[1700px] mx-auto flex items-center justify-between">
             <h1 className="font-ui text-[9px] tracking-[0.4em] uppercase text-neutral-900">
-              {isCreate ? "Curate New Perspective" : isEdit ? "Refine Product Narrative" : "Product Management"}
+              {isCreate
+                ? "Curate New Perspective"
+                : isEdit
+                  ? "Refine Product Narrative"
+                  : "Product Management"}
             </h1>
 
             <div className="flex gap-4">
               {isCreate || isEdit ? (
                 <>
                   <button
-                    onClick={() => (currentMode === "create" ? navigate(-1) : setCurrentMode("view"))}
+                    onClick={() =>
+                      currentMode === "create"
+                        ? navigate(-1)
+                        : setCurrentMode("view")
+                    }
                     className="px-6 py-2 bg-neutral-100 text-neutral-600 font-ui text-[9px] tracking-[0.2em] uppercase hover:bg-neutral-200 transition"
                   >
                     Discard Changes
                   </button>
                   <button
-                    onClick={() => (currentMode === "create" ? handleSubmit() : handleUpdate())}
+                    onClick={() =>
+                      currentMode === "create" ? handleSubmit() : handleUpdate()
+                    }
                     className="flex items-center gap-2 px-6 py-2 bg-neutral-900 text-white font-ui text-[9px] tracking-[0.2em] uppercase hover:bg-black transition disabled:opacity-50"
                   >
-                    {actionLoading ? <Spinner /> : <HiOutlineCheck className="w-3 h-3" />}
+                    {actionLoading ? (
+                      <Spinner />
+                    ) : (
+                      <HiOutlineCheck className="w-3 h-3" />
+                    )}
                     {actionLoading ? "Processing..." : "Publish Changes"}
                   </button>
                 </>
@@ -672,7 +649,6 @@ export default function ProductDetails() {
       )}
       <div className="max-w-[1700px] mx-auto px-4 lg:px-12">
         <div className="flex flex-col lg:flex-row gap-12 lg:gap-24">
-
           {/* LEFT: Media Composition (Vertical stack on desktop) */}
           <div className="w-full lg:w-[65%] order-2 lg:order-1">
             {loading ? (
@@ -702,7 +678,9 @@ export default function ProductDetails() {
                   {/* Unified Media Addition for Admin */}
                   {(isEdit || isCreate) && (
                     <div className="w-full pt-8 mt-8 border-t border-neutral-100 animate-in fade-in duration-1000">
-                      <h4 className="font-ui text-[10px] tracking-[0.4em] uppercase text-neutral-400 mb-8 text-center italic">Gallery Composition</h4>
+                      <h4 className="font-ui text-[10px] tracking-[0.4em] uppercase text-neutral-400 mb-8 text-center italic">
+                        Gallery Composition
+                      </h4>
                       <ProductMediaGallery
                         media={product?.media || []}
                         selectedMedia={selectedMedia}
@@ -736,12 +714,16 @@ export default function ProductDetails() {
             {isEdit || isCreate ? (
               <div className="bg-neutral-50 p-8 border border-neutral-100 rounded-sm space-y-12">
                 <section>
-                  <h4 className="font-ui text-[9px] tracking-[0.4em] uppercase text-neutral-400 mb-6">Core Narrative</h4>
+                  <h4 className="font-ui text-[9px] tracking-[0.4em] uppercase text-neutral-400 mb-6">
+                    Core Narrative
+                  </h4>
                   <ProductInfoForm product={product} setProduct={setProduct} />
                 </section>
 
                 <section>
-                  <h4 className="font-ui text-[9px] tracking-[0.4em] uppercase text-neutral-400 mb-6">Color Calibration</h4>
+                  <h4 className="font-ui text-[9px] tracking-[0.4em] uppercase text-neutral-400 mb-6">
+                    Color Calibration
+                  </h4>
                   <ProductColorsEditor
                     product={product}
                     setProduct={setProduct}
@@ -750,7 +732,9 @@ export default function ProductDetails() {
                 </section>
 
                 <section>
-                  <h4 className="font-ui text-[9px] tracking-[0.4em] uppercase text-neutral-400 mb-6">Dimensional Scale</h4>
+                  <h4 className="font-ui text-[9px] tracking-[0.4em] uppercase text-neutral-400 mb-6">
+                    Dimensional Scale
+                  </h4>
                   <ProductSizesEditor
                     product={product}
                     setProduct={setProduct}
@@ -794,7 +778,9 @@ export default function ProductDetails() {
                   </div>
 
                   <div className="flex flex-col items-end gap-1">
-                    <span className={`font-ui text-[9px] tracking-[0.2em] uppercase px-3 py-1 ${isAvailable ? "text-green-600 bg-green-50" : "text-red-500 bg-red-50"}`}>
+                    <span
+                      className={`font-ui text-[9px] tracking-[0.2em] uppercase px-3 py-1 ${isAvailable ? "text-green-600 bg-green-50" : "text-red-500 bg-red-50"}`}
+                    >
                       {isAvailable ? "Available" : "Restocking"}
                     </span>
                     {promotion > 0 && (
@@ -811,13 +797,20 @@ export default function ProductDetails() {
                   {product?.colors?.length > 0 && (
                     <div className="space-y-4">
                       <div className="flex justify-between items-center pb-2 border-b border-neutral-50">
-                        <label className="font-ui text-[9px] tracking-[0.3em] uppercase text-neutral-900">Palette</label>
-                        <span className="font-body text-[10px] text-neutral-400 uppercase tracking-widest">{selectedColor?.name}</span>
+                        <label className="font-ui text-[9px] tracking-[0.3em] uppercase text-neutral-900">
+                          Palette
+                        </label>
+                        <span className="font-body text-[10px] text-neutral-400 uppercase tracking-widest">
+                          {selectedColor?.name}
+                        </span>
                       </div>
 
                       <div className="flex flex-wrap gap-4 pt-2">
                         {product.colors?.map((c, i) => {
-                          const isColorAvailable = c.quantity !== undefined ? Number(c.quantity) > 0 : true;
+                          const isColorAvailable =
+                            c.quantity !== undefined
+                              ? Number(c.quantity) > 0
+                              : true;
                           return (
                             <button
                               key={i}
@@ -827,13 +820,23 @@ export default function ProductDetails() {
                                   setSelectedMedia(c.media[0]);
                                 }
                               }}
-                              className={`group relative w-12 h-12 rounded-full overflow-hidden transition-all duration-700 ring-offset-4 ${selectedColor?.name === c.name ? "ring-1 ring-neutral-900 shadow-xl scale-110" : "ring-0 hover:ring-1 hover:ring-neutral-200"
-                                } ${!isColorAvailable ? "opacity-30 grayscale cursor-not-allowed" : ""}`}
+                              className={`group relative w-12 h-12 rounded-full overflow-hidden transition-all duration-700 ring-offset-4 ${
+                                selectedColor?.name === c.name
+                                  ? "ring-1 ring-neutral-900 shadow-xl scale-110"
+                                  : "ring-0 hover:ring-1 hover:ring-neutral-200"
+                              } ${!isColorAvailable ? "opacity-30 grayscale cursor-not-allowed" : ""}`}
                             >
                               {c.src ? (
-                                <img src={c.src} alt={c.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                                <img
+                                  src={c.src}
+                                  alt={c.name}
+                                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                />
                               ) : (
-                                <div className="w-full h-full" style={{ backgroundColor: c.value ?? "#000" }} />
+                                <div
+                                  className="w-full h-full"
+                                  style={{ backgroundColor: c.value ?? "#000" }}
+                                />
                               )}
                               {!isColorAvailable && (
                                 <div className="absolute inset-0 bg-white/40 flex items-center justify-center">
@@ -851,24 +854,40 @@ export default function ProductDetails() {
                   {product?.sizes?.length > 0 && (
                     <div className="space-y-4">
                       <div className="flex justify-between items-center pb-2 border-b border-neutral-50">
-                        <label className="font-ui text-[9px] tracking-[0.3em] uppercase text-neutral-900">Silhouette</label>
-                        <span className="font-body text-[10px] text-neutral-400 uppercase tracking-widest">{selectedSize?.name}</span>
+                        <label className="font-ui text-[9px] tracking-[0.3em] uppercase text-neutral-900">
+                          Silhouette
+                        </label>
+                        <span className="font-body text-[10px] text-neutral-400 uppercase tracking-widest">
+                          {selectedSize?.name}
+                        </span>
                       </div>
 
                       <div className="grid grid-cols-4 gap-3 pt-2">
                         {product.sizes?.map((s, i) => {
-                          const isSizeAvailable = s.quantity !== undefined ? Number(s.quantity) > 0 : true;
+                          const isSizeAvailable =
+                            s.quantity !== undefined
+                              ? Number(s.quantity) > 0
+                              : true;
                           return (
                             <button
                               key={i}
                               onClick={() => setSelectedSize(s)}
                               disabled={!isSizeAvailable}
-                              className={`py-3 font-ui text-[10px] tracking-widest border transition-all duration-700 relative overflow-hidden ${selectedSize?.name === s.name
-                                ? "bg-neutral-900 text-white border-neutral-900 shadow-xl scale-[1.02]"
-                                : "border-neutral-100 text-neutral-400 hover:border-neutral-400"
-                                } ${!isSizeAvailable ? "opacity-40 cursor-not-allowed bg-neutral-50" : ""}`}
+                              className={`py-3 font-ui text-[10px] tracking-widest border transition-all duration-700 relative overflow-hidden ${
+                                selectedSize?.name === s.name
+                                  ? "bg-neutral-900 text-white border-neutral-900 shadow-xl scale-[1.02]"
+                                  : "border-neutral-100 text-neutral-400 hover:border-neutral-400"
+                              } ${!isSizeAvailable ? "opacity-40 cursor-not-allowed bg-neutral-50" : ""}`}
                             >
-                              <span className={!isSizeAvailable ? "line-through grayscale" : ""}>{s.name}</span>
+                              <span
+                                className={
+                                  !isSizeAvailable
+                                    ? "line-through grayscale"
+                                    : ""
+                                }
+                              >
+                                {s.name}
+                              </span>
                               {!isSizeAvailable && (
                                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                                   <div className="w-[120%] h-[1px] bg-neutral-200 rotate-[25deg]" />
@@ -907,10 +926,16 @@ export default function ProductDetails() {
 
                 {/* Narrative: Description */}
                 <div className="pt-12 space-y-6">
-                  <h4 className="font-ui text-[9px] tracking-[0.4em] uppercase text-neutral-900 border-b border-neutral-100 pb-3">The Perspective</h4>
+                  <h4 className="font-ui text-[9px] tracking-[0.4em] uppercase text-neutral-900 border-b border-neutral-100 pb-3">
+                    The Perspective
+                  </h4>
                   <div
                     className="font-body text-neutral-500 text-sm leading-relaxed whitespace-pre-line prose prose-neutral max-w-none"
-                    dangerouslySetInnerHTML={{ __html: FormatDescription ? FormatDescription(product?.Description) : product?.Description }}
+                    dangerouslySetInnerHTML={{
+                      __html: FormatDescription
+                        ? FormatDescription(product?.Description)
+                        : product?.Description,
+                    }}
                   />
                 </div>
 
@@ -919,8 +944,13 @@ export default function ProductDetails() {
                   <div className="flex gap-5 items-start">
                     <FaShippingFast className="w-5 h-5 text-neutral-900 mt-0.5" />
                     <div className="space-y-1">
-                      <span className="block font-ui text-[9px] tracking-[0.2em] uppercase text-neutral-900">Tunisia Concierge</span>
-                      <p className="text-[11px] text-neutral-400 font-body leading-relaxed">Complimentary premium delivery across the entire territory. Artisanal handling guaranteed.</p>
+                      <span className="block font-ui text-[9px] tracking-[0.2em] uppercase text-neutral-900">
+                        Tunisia Concierge
+                      </span>
+                      <p className="text-[11px] text-neutral-400 font-body leading-relaxed">
+                        Complimentary premium delivery across the entire
+                        territory. Artisanal handling guaranteed.
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -931,7 +961,9 @@ export default function ProductDetails() {
 
         {/* Footer Dialogue */}
         <div className="pt-32 pb-16 text-center border-t border-neutral-50 mt-24">
-          <span className="font-ui text-[9px] tracking-[0.5em] uppercase text-neutral-300">Clin d'Oeil Curated Collections</span>
+          <span className="font-ui text-[9px] tracking-[0.5em] uppercase text-neutral-300">
+            Clin d'Oeil Curated Collections
+          </span>
         </div>
       </div>
     </div>

@@ -1,38 +1,10 @@
 import React from "react";
-import { Helmet } from "react-helmet-async";
 
 export default function PrivacyPolicy() {
   const SITE_URL = "https://www.clindoeilstore.com";
 
   return (
     <>
-      <Helmet>
-        <title>Politique de Confidentialité – Clin d’Oeil Store</title>
-        <meta
-          name="description"
-          content="Clin d’Oeil Store s'engage à protéger vos données personnelles et respecter votre vie privée."
-        />
-        <link
-          rel="canonical"
-          href="https://www.clindoeilstore.com/privacy-policy"
-        />
-
-        {/* Open Graph */}
-        <meta
-          property="og:title"
-          content="Politique de Confidentialité – Clin d’Oeil Store"
-        />
-        <meta
-          property="og:description"
-          content="Clin d’Oeil Store s'engage à protéger vos données personnelles et respecter votre vie privée."
-        />
-        <meta
-          property="og:url"
-          content="https://www.clindoeilstore.com/privacy-policy"
-        />
-        <meta property="og:type" content="website" />
-      </Helmet>
-
       <section className="bg-white">
         {/* Hero */}
         <div className="relative font-heading shadow-lg text-gray-900 py-12 md:py-16">

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Helmet } from "react-helmet-async";
 import { useSelector, useDispatch } from "react-redux";
 import { setCurrentPage } from "../redux/shopFilters/pageOptions";
 import Filters from "../components/shop/filters";
@@ -83,33 +82,6 @@ export default function Shop() {
 
   return (
     <>
-      <Helmet>
-        <title>
-          Boutique Mode Femme | Clin d’Oeil Store – Vêtements Tendance
-        </title>
-        <meta
-          name="description"
-          content="Découvrez la boutique en ligne Clin d’Oeil Store : vêtements tendance, mode femme, nouvelles collections et styles élégants disponibles en Tunisie."
-        />
-        <link rel="canonical" href="https://www.clindoeilstore.com/shop" />
-
-        {/* Open Graph */}
-        <meta
-          property="og:title"
-          content="Boutique Mode Femme | Clin d’Oeil Store"
-        />
-        <meta
-          property="og:description"
-          content="Découvrez la boutique en ligne Clin d’Oeil Store : vêtements tendance pour femmes."
-        />
-        <meta property="og:url" content="https://www.clindoeilstore.com/shop" />
-        <meta property="og:type" content="website" />
-        <meta
-          property="og:image"
-          content="https://www.clindoeilstore.com/og-shop.jpg"
-        />
-      </Helmet>
-
       <main className="mx-auto max-w-7xl px-4 md:py-10 sm:px-6 lg:px-8">
         <Header
           setMobileFiltersOpen={setMobileFiltersOpen}
@@ -163,8 +135,7 @@ export default function Shop() {
                 </div>
               </div>
             )}
-            <div className="lg:col-span-3">
-            </div>
+            <div className="lg:col-span-3"></div>
           </div>
         </section>
       </main>

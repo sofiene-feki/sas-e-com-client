@@ -1,38 +1,10 @@
 import React from "react";
-import { Helmet } from "react-helmet-async";
 
 export default function TermsOfService() {
   const SITE_URL = "https://www.clindoeilstore.com";
 
   return (
     <>
-      <Helmet>
-        <title>Conditions Générales d’Utilisation – Clin d’Oeil Store</title>
-        <meta
-          name="description"
-          content="Lisez les conditions générales d’utilisation de Clin d’Oeil Store et nos services."
-        />
-        <link
-          rel="canonical"
-          href="https://www.clindoeilstore.com/terms-of-service"
-        />
-
-        {/* Open Graph */}
-        <meta
-          property="og:title"
-          content="Conditions Générales d’Utilisation – Clin d’Oeil Store"
-        />
-        <meta
-          property="og:description"
-          content="Lisez les conditions générales d’utilisation de Clin d’Oeil Store et nos services."
-        />
-        <meta
-          property="og:url"
-          content="https://www.clindoeilstore.com/terms-of-service"
-        />
-        <meta property="og:type" content="website" />
-      </Helmet>
-
       <section className="bg-white">
         {/* Hero */}
         <div className="relative font-heading shadow-lg text-gray-900 py-12 md:py-16">

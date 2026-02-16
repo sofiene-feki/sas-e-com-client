@@ -1,36 +1,8 @@
 import React from "react";
-import { Helmet } from "react-helmet-async";
 
 export default function ReturnsRefunds() {
   return (
     <>
-      <Helmet>
-        <title>Livraison, Retours & Échanges – Clin d’Oeil Store</title>
-        <meta
-          name="description"
-          content="Toutes les informations sur la livraison, les retours et échanges chez Clin d’Oeil Store."
-        />
-        <link
-          rel="canonical"
-          href="https://www.clindoeilstore.com/returns-refunds"
-        />
-
-        {/* Open Graph */}
-        <meta
-          property="og:title"
-          content="Livraison, Retours & Échanges – Clin d’Oeil Store"
-        />
-        <meta
-          property="og:description"
-          content="Toutes les informations sur la livraison, les retours et échanges chez Clin d’Oeil Store."
-        />
-        <meta
-          property="og:url"
-          content="https://www.clindoeilstore.com/returns-refunds"
-        />
-        <meta property="og:type" content="website" />
-      </Helmet>
-
       <section className="bg-white">
         {/* Hero */}
         <div className="relative font-heading shadow-lg text-gray-900 py-12 md:py-16">

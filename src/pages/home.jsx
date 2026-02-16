@@ -1,5 +1,4 @@
 import React, { useRef } from "react";
-import { Helmet } from "react-helmet-async";
 import Banner from "../components/home/Banner";
 import CategoryGrid from "../components/home/CategoryGrid";
 import HomeVideoSection from "../components/home/HomeVideoSection";
@@ -34,31 +33,6 @@ const Home = () => {
 
   return (
     <div className="bg-white">
-      <Helmet>
-        <title>Clin d’Oeil Store – Mode Femme, Vêtements Tendance</title>
-        <meta
-          name="description"
-          content="Découvrez Clin d’Oeil Store : boutique en ligne de vêtements tendance pour femmes, nouvelles collections et styles élégants en Tunisie."
-        />
-        <link rel="canonical" href="https://www.clindoeilstore.com/" />
-
-        {/* Open Graph */}
-        <meta
-          property="og:title"
-          content="Clin d’Oeil Store – Mode Femme, Vêtements Tendance"
-        />
-        <meta
-          property="og:description"
-          content="Découvrez Clin d’Oeil Store : boutique en ligne de vêtements tendance pour femmes, nouvelles collections et styles élégants en Tunisie."
-        />
-        <meta property="og:url" content="https://www.clindoeilstore.com/" />
-        <meta property="og:type" content="website" />
-        <meta
-          property="og:image"
-          content="https://www.clindoeilstore.com/og-home.jpg"
-        />
-      </Helmet>
-
       {/* 1. Cinematic Entry */}
       <Banner />
 

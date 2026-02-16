@@ -1,5 +1,4 @@
 import React from "react";
-import { Helmet } from "react-helmet-async";
 import {
   StarIcon,
   UserGroupIcon,
@@ -13,31 +12,6 @@ export default function About() {
 
   return (
     <>
-      <Helmet>
-        <title>À propos – Clin d’Oeil Store</title>
-        <meta
-          name="description"
-          content="Clin d’Oeil Store : découvrez notre boutique de mode en Tunisie, notre mission, valeurs et collections tendance."
-        />
-        <link rel="canonical" href="https://www.clindoeilstore.com/about" />
-
-        {/* Open Graph */}
-        <meta property="og:title" content="À propos – Clin d’Oeil Store" />
-        <meta
-          property="og:description"
-          content="Clin d’Oeil Store : découvrez notre boutique de mode en Tunisie, notre mission, valeurs et collections tendance."
-        />
-        <meta
-          property="og:url"
-          content="https://www.clindoeilstore.com/about"
-        />
-        <meta property="og:type" content="website" />
-        <meta
-          property="og:image"
-          content="https://www.clindoeilstore.com/og-about.jpg"
-        />
-      </Helmet>
-
       <section className="bg-white">
         {/* Hero Section */}
         <div className="relative font-heading shadow-lg text-gray-900">
